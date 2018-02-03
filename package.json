@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/acecera/liri-node-app#readme",
   "dependencies": {
-    "dotenv": "^5.0.0"
+    "dotenv": "^5.0.0",
+    "twitter": "^1.7.1"
   }
 }
