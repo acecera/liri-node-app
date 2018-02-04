@@ -101,8 +101,27 @@ request('queryURL', function (error, response, body) {
         console.log("Language: " + JSON.parse(body).Language);
         console.log("Plot: " + JSON.parse(body).Plot);
         console.log("Actors: " + JSON.parse(body).Actors);
-     } //else (nodeArgs === "")
-    //     console.log("If you haven't watched 'Mr. Nobody,' then you should: http://www.imdb.com/title/tt0485947/");
-    //     console.log("It's on Netflix!");
+
+        fs.appendFile('random.txt', "Title: " + JSON.parse(body).Title);
+        fs.appendFile('random.txt', "Release Year: " + JSON.parse(body).Year);
+        fs.appendFile('random.txt', "IMDB Rating: " + JSON.parse(body).imdbRating);
+        fs.appendFile('random.txt', "Country: " + JSON.parse(body).Country);
+        fs.appendFile('random.txt', "Rotten Tomatoes Rating: " + JSON.parse(body).tomatoRating);
+        fs.appendFile('random.txt', "Language: " + JSON.parse(body).Language);
+        fs.appendFile('random.txt', "Plot: " + JSON.parse(body).Plot);
+        fs.appendFile('random.txt', "Actors: " + JSON.parse(body).Actors);
+     } else {
+         console.log("Error!")
+     }
+     if (movie === "Mr.Nobody") {
+         console.log("If you haven't watched 'Mr. Nobody,' then you should: http://www.imdb.com/title/tt0485947/");
+         console.log("It's on Netflix!");
+
+         fs.appendFile('random.txt', "If you haven't watched 'Mr. Nobody,' then you should: http://www.imdb.com/title/tt0485947/");
+         fs.appendFile('random.txt', "It's on Netflix!");
+     }
 });
+
+
+
 
