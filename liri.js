@@ -1,4 +1,4 @@
-import { spotify } from './keys';
+// import { spotify } from './keys';
 
 require('dotenv').config();
 
@@ -11,6 +11,7 @@ var fs = require('fs');
 var userInput = "";
 var nodeArgs = process.argv;
 var command = process.argv[2];
+var movieName = "";
 var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy";
 
 for (var i = 2; i < nodeArgs.lengths; i++) {
@@ -38,7 +39,7 @@ switch(command) {
 
     case "movie-this":
     if(userInput) {
-        omdbData(userInput)
+        omdbData(movieName)
     } 
     else {
         omdbData("Mr.Nobody")
@@ -50,7 +51,7 @@ switch(command) {
     break;
     
     default:
-        console.log("{Please enter a command: my-tweets, spotify-this-song, movie-this, do-what-it-says}");
+        console.log("{Please enter a command: my-tweets, spotify-this-song '<song name here>', movie-this '<movie name here>', do-what-it-says}");
     break;    
 }
 
@@ -65,13 +66,13 @@ function showTweets() {
                 var date = tweets[i].created_at;
                 console.log("@AnthonyAceCera: " + tweets[i].text + "Created At: " + date.substring(0,19));
 
-                fs.appendFile('random.txt', "@AnthonyAceCera: " + tweets[i].text + "Created At: " + date.substring(0,19));
+                fs.appendFile('log.txt', "@AnthonyAceCera: " + tweets[i].text + "Created At: " + date.substring(0,19));
             }
         }
     });
 }
 
-function spotifySong(song) {
+function SpotifySong(song) {
     spotify.search({ type: 'track', query: song}, function(error, data) {
         if (error) {
             console.log("Error!")
@@ -83,44 +84,50 @@ function spotifySong(song) {
                 console.log("Preview URL: " + songData.preview_url);
                 console.log("Album :" + songData.album.name);
 
-                fs.appendFile('random.txt', songData.artists[0].name);
-                fs.appendFile('random.txt', songData.name);
-                fs.appendFile('random.txt', songData.preview_url);
-                fs.appendFile('random.txt', songData.album.name);
+                fs.appendFile('log.txt', songData.artists[0].name);
+                fs.appendFile('log.txt', songData.name);
+                fs.appendFile('log.txt', songData.preview_url);
+                fs.appendFile('log.txt', songData.album.name);
             }
         }
     });
 }
-request('queryURL', function (error, response, body) {
-    if (!error && response.statusCode === 200) {
-        console.log("Title: " + JSON.parse(body).Title);
-        console.log("Release Year: " + JSON.parse(body).Year);
-        console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
-        console.log("Country: " + JSON.parse(body).Country);
-        console.log("Rotten Tomatoes Rating: " + JSON.parse(body).tomatoRating);
-        console.log("Language: " + JSON.parse(body).Language);
-        console.log("Plot: " + JSON.parse(body).Plot);
-        console.log("Actors: " + JSON.parse(body).Actors);
 
-        fs.appendFile('random.txt', "Title: " + JSON.parse(body).Title);
-        fs.appendFile('random.txt', "Release Year: " + JSON.parse(body).Year);
-        fs.appendFile('random.txt', "IMDB Rating: " + JSON.parse(body).imdbRating);
-        fs.appendFile('random.txt', "Country: " + JSON.parse(body).Country);
-        fs.appendFile('random.txt', "Rotten Tomatoes Rating: " + JSON.parse(body).tomatoRating);
-        fs.appendFile('random.txt', "Language: " + JSON.parse(body).Language);
-        fs.appendFile('random.txt', "Plot: " + JSON.parse(body).Plot);
-        fs.appendFile('random.txt', "Actors: " + JSON.parse(body).Actors);
-     } else {
-         console.log("Error!")
-     }
-     if (movie === "Mr.Nobody") {
-         console.log("If you haven't watched 'Mr. Nobody,' then you should: http://www.imdb.com/title/tt0485947/");
-         console.log("It's on Netflix!");
+function omdbData(movieName) {
+    var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy";
 
-         fs.appendFile('random.txt', "If you haven't watched 'Mr. Nobody,' then you should: http://www.imdb.com/title/tt0485947/");
-         fs.appendFile('random.txt', "It's on Netflix!");
-     }
-});
+
+    request('queryURL', function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+            console.log("Title: " + JSON.parse(body).Title);
+            console.log("Release Year: " + JSON.parse(body).Year);
+            console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
+            console.log("Country: " + JSON.parse(body).Country);
+            console.log("Rotten Tomatoes Rating: " + JSON.parse(body).tomatoRating);
+            console.log("Language: " + JSON.parse(body).Language);
+            console.log("Plot: " + JSON.parse(body).Plot);
+            console.log("Actors: " + JSON.parse(body).Actors);
+
+            fs.appendFile('log.txt', "Title: " + JSON.parse(body).Title);
+            fs.appendFile('log.txt', "Release Year: " + JSON.parse(body).Year);
+            fs.appendFile('log.txt', "IMDB Rating: " + JSON.parse(body).imdbRating);
+            fs.appendFile('log.txt', "Country: " + JSON.parse(body).Country);
+            fs.appendFile('log.txt', "Rotten Tomatoes Rating: " + JSON.parse(body).tomatoRating);
+            fs.appendFile('log.txt', "Language: " + JSON.parse(body).Language);
+            fs.appendFile('log.txt', "Plot: " + JSON.parse(body).Plot);
+            fs.appendFile('log.txt', "Actors: " + JSON.parse(body).Actors);
+        } else {
+            console.log("Error!")
+        }
+        if (movieName === "Mr.Nobody") {
+            console.log("If you haven't watched 'Mr. Nobody,' then you should: http://www.imdb.com/title/tt0485947/");
+            console.log("It's on Netflix!");
+
+            fs.appendFile('log.txt', "If you haven't watched 'Mr. Nobody,' then you should: http://www.imdb.com/title/tt0485947/");
+            fs.appendFile('log.txt', "It's on Netflix!");
+        }
+    });
+}    
 
 
 
