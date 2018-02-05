@@ -1,5 +1,3 @@
-// import { spotify } from './keys';
-
 require('dotenv').config();
 
 var keys = require('./keys.js');
@@ -7,6 +5,10 @@ var request = require('request');
 var Twitter = require('twitter');
 var Spotify = require('node-spotify-api');
 var fs = require('fs');
+
+var Spotify = new Spotify(keys.Spotify);
+var client = new Twitter(keys.twitter);
+var dotenv = new dotenv(keys.dotenv);
 
 var userInput = "";
 var nodeArgs = process.argv;
@@ -30,10 +32,10 @@ switch(command) {
     
     case "spotify-this-song":
     if(userInput) {
-        spotifySong(userInput);
+        Spotify(userInput);
     } 
     else {
-        spotifySong("The Sign")
+        Spotify('The Sign')
     }
     break;
 
@@ -72,7 +74,7 @@ function showTweets() {
     });
 }
 
-function SpotifySong(song) {
+function Spotify(song) {
     spotify.search({ type: 'track', query: song}, function(error, data) {
         if (error) {
             console.log("Error!")
