@@ -6,7 +6,7 @@ var Twitter = require('twitter');
 var Spotify = require('node-spotify-api');
 var fs = require('fs');
 
-var Spotify = new Spotify(keys.Spotify);
+var spotify = new Spotify(keys.Spotify);
 var client = new Twitter(keys.twitter);
 var dotenv = new dotenv(keys.dotenv);
 
@@ -49,11 +49,11 @@ switch(command) {
     break;
 
     case "do-what-it-says":
-        doThing();
+        doWhatItSays();
     break;
     
     default:
-        console.log("{Please enter a command: my-tweets, spotify-this-song '<song name here>', movie-this '<movie name here>', do-what-it-says}");
+        console.log("Please enter a command: my-tweets, spotify-this-song '<song name here>', movie-this '<movie name here>', do-what-it-says");
     break;    
 }
 
@@ -68,7 +68,7 @@ function showTweets() {
                 var date = tweets[i].created_at;
                 console.log("@AnthonyAceCera: " + tweets[i].text + "Created At: " + date.substring(0,19));
 
-                fs.appendFile('log.txt', "@AnthonyAceCera: " + tweets[i].text + "Created At: " + date.substring(0,19));
+                fs.appendFile('./log.txt', "@AnthonyAceCera: " + tweets[i].text + "Created At: " + date.substring(0,19));
             }
         }
     });
@@ -86,10 +86,10 @@ function Spotify(song) {
                 console.log("Preview URL: " + songData.preview_url);
                 console.log("Album :" + songData.album.name);
 
-                fs.appendFile('log.txt', songData.artists[0].name);
-                fs.appendFile('log.txt', songData.name);
-                fs.appendFile('log.txt', songData.preview_url);
-                fs.appendFile('log.txt', songData.album.name);
+                fs.appendFile('./log.txt', songData.artists[0].name);
+                fs.appendFile('./log.txt', songData.name);
+                fs.appendFile('./log.txt', songData.preview_url);
+                fs.appendFile('./log.txt', songData.album.name);
             }
         }
     });
@@ -110,14 +110,14 @@ function omdbData(movieName) {
             console.log("Plot: " + JSON.parse(body).Plot);
             console.log("Actors: " + JSON.parse(body).Actors);
 
-            fs.appendFile('log.txt', "Title: " + JSON.parse(body).Title);
-            fs.appendFile('log.txt', "Release Year: " + JSON.parse(body).Year);
-            fs.appendFile('log.txt', "IMDB Rating: " + JSON.parse(body).imdbRating);
-            fs.appendFile('log.txt', "Country: " + JSON.parse(body).Country);
-            fs.appendFile('log.txt', "Rotten Tomatoes Rating: " + JSON.parse(body).tomatoRating);
-            fs.appendFile('log.txt', "Language: " + JSON.parse(body).Language);
-            fs.appendFile('log.txt', "Plot: " + JSON.parse(body).Plot);
-            fs.appendFile('log.txt', "Actors: " + JSON.parse(body).Actors);
+            fs.appendFile('./log.txt', "Title: " + JSON.parse(body).Title);
+            fs.appendFile('./log.txt', "Release Year: " + JSON.parse(body).Year);
+            fs.appendFile('./log.txt', "IMDB Rating: " + JSON.parse(body).imdbRating);
+            fs.appendFile('./log.txt', "Country: " + JSON.parse(body).Country);
+            fs.appendFile('./log.txt', "Rotten Tomatoes Rating: " + JSON.parse(body).tomatoRating);
+            fs.appendFile('./log.txt', "Language: " + JSON.parse(body).Language);
+            fs.appendFile('./log.txt', "Plot: " + JSON.parse(body).Plot);
+            fs.appendFile('./log.txt', "Actors: " + JSON.parse(body).Actors);
         } else {
             console.log("Error!")
         }
@@ -125,11 +125,21 @@ function omdbData(movieName) {
             console.log("If you haven't watched 'Mr. Nobody,' then you should: http://www.imdb.com/title/tt0485947/");
             console.log("It's on Netflix!");
 
-            fs.appendFile('log.txt', "If you haven't watched 'Mr. Nobody,' then you should: http://www.imdb.com/title/tt0485947/");
-            fs.appendFile('log.txt', "It's on Netflix!");
+            fs.appendFile('./log.txt', "If you haven't watched 'Mr. Nobody,' then you should: http://www.imdb.com/title/tt0485947/");
+            fs.appendFile('./log.txt', "It's on Netflix!");
         }
     });
-}    
+}   
+
+function doWhatItSays() {
+    fs.readFile("./random.txt", "utf8", function(error, data) {
+        if (error) {
+            console.log("Error!");
+        }
+        var txt = data.split(',');
+        spotify("I Want it That Way");
+    })
+}
 
 
 
