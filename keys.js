@@ -1,8 +1,4 @@
-var Spotify = new Spotify(keys.Spotify);
-var client = new Twitter(keys.twitter);
-var dotenv = new dotenv(keys.dotenv);
-
-console.log('this is loaded');
+console.log("Keys are loaded.");
 
 exports.twitter = {
   consumer_key: process.env.TWITTER_CONSUMER_KEY,
