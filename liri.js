@@ -135,10 +135,11 @@ function doWhatItSays() {
     fs.readFile("./random.txt", "utf8", function(error, data) {
         if (error) {
             console.log("Error!");
+        } else {
+            var txt = data.split(',');
+            spotify("I Want it That Way");
         }
-        var txt = data.split(',');
-        spotify("I Want it That Way");
-    })
+    });
 }
 
 
